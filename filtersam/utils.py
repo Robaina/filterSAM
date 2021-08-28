@@ -2,7 +2,6 @@
 Functions for general purposes
 """
 import os
-import subprocess
 import numpy as np
 
 
