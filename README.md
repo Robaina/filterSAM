@@ -6,7 +6,7 @@ Percent identity is computed as:
 
 <img src="https://render.githubusercontent.com/render/math?math=PI = 100 \frac{N_m}{N_m + N_i}">
 
-where N<sub>m<\sub> is the number of matches and N<sub>i<\sub> is the number of mismatches.
+where N<sub>m</sub> is the number of matches and N<sub>i</sub> is the number of mismatches.
 
 Percent of matched sequences is computed as:
 
