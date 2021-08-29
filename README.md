@@ -6,15 +6,13 @@ Percent identity is computed as:
 
 <img src="https://render.githubusercontent.com/render/math?math=PI = 100 \frac{N_m}{N_m + N_i}">
 
-$$PI = 100 \frac{N_m}{N_m + N_i}$$
-
-where $N_m$ is the number of matches and $N_i$ is the number of mismatches.
+where N<sub>m<\sub> is the number of matches and N<sub>i<\sub> is the number of mismatches.
 
 Percent of matched sequences is computed as:
 
-$$PM = 100 \frac{N_m}{L}$$
+<img src="https://render.githubusercontent.com/render/math?math=PM = 100 \frac{N_m}{L}">
 
-where $L$ corresponds to query sequence length.
+where L corresponds to query sequence length.
 
 ## NOTES
 
