@@ -98,7 +98,8 @@ def percent_identity(segment):
 def has_MD_tag(segment):
     return 'MD' in [tag for (tag, _) in segment.get_tags()]
 
-def filterSAMbyIdentity(input_path: str, output_path: str = None, identity_cutoff: int = 95) -> None:
+def filterSAMbyIdentity(input_path: str, output_path: str = None,
+                        identity_cutoff: float = 95.0) -> None:
     """
     Filter aligned segments in BAM or SAM file with percent identity
     equal or above identity_cutoff value.
@@ -117,7 +118,8 @@ def filterSAMbyIdentity(input_path: str, output_path: str = None, identity_cutof
     filtered_sam.close()
     samfile.close()
     
-def filterSAMbyPercentMatched(input_path: str, output_path: str = None, matched_cutoff: int = 50) -> None:
+def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
+                              matched_cutoff: float = 50.0) -> None:
     """
     Filter aligned segments in BAM or SAM file with percent of matched
     based equal or higher than matched_cutoff. 
@@ -139,6 +141,28 @@ def filterSAMbyPercentMatched(input_path: str, output_path: str = None, matched_
     filtered_sam.close()
     samfile.close()
     
+def filterSAM(input_path: str, output_path: str = None,
+              filter_by: str = 'identity', cutoff: float = 95.0,
+              n_processes: int = None) -> None:
+    """
+    Filter aligned segments in BAM or SAM file by percent identity or percent
+    of matched sequence.
+    """
+    if filter_by == 'identity':
+        filter_method = filterSAMbyIdentity
+    elif filter_by == 'matched':
+        filter_method = filterSAMbyPercentMatched
+    else:
+        raise ValueError('Invalid filter, available filters are: "identity" and "matched"')
+
+    if not (cutoff >=0 and cutoff <= 100):
+        raise ValueError('Cutoff value must be between 0 and 100.')
+    
+    if n_processes is None:
+        filter_method(input_path, output_path, cutoff)
+    else:
+        pass
+
 
 
 # Run script: python3 filter_by_identity.py input.bam identity_cutoff [output_path]
