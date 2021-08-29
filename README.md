@@ -71,7 +71,7 @@ parallelizeBAMoperation('ERS491274.bam',
                         callback=filterSAMbyIdentity,
                         callback_additional_args=[95],
                         n_processes=8,
-                        output_dir='ERS491274_PI95_parallel.bam')
+                        output_path='ERS491274_PI95_parallel.bam')
 ```
 
 We can further check if the filtered bam files produced in a single process and in parallel contain the same number of segments with the function ```getNumberOfReads``` of parallelbam.
