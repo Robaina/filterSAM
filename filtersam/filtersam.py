@@ -5,12 +5,10 @@
 Tools to filter SAM/BAM files by percent identity and percent of matched sequence
 """
 
-import pysam
+# import pysam
 import os
-import sys
 import re
-import time
-import numpy as np
+from parallelbam.parallelbam import parallelizeBAMoperation
 from .utils import terminalExecute
 
 
@@ -161,31 +159,5 @@ def filterSAM(input_path: str, output_path: str = None,
     if n_processes is None:
         filter_method(input_path, output_path, cutoff)
     else:
-        pass
-
-
-
-# Run script: python3 filter_by_identity.py input.bam identity_cutoff [output_path]
-if __name__ == "__main__":
-    """
-    Filter records in SAM/BAM file by given percent identity.
-    Usage: 
-    python3 filter_by_identity.py input.{bam|sam} identity_cutoff [output_path]
-    """
-    
-    input_file = sys.argv[1]
-    if (len(sys.argv) > 2):
-        identity_cutoff = int(sys.argv[2])
-    else:
-        identity_cutoff = 95
-    if (len(sys.argv) > 3):
-        output_path = int(sys.argv[3])
-    else:
-        output_path = None
-    
-    start = time.time()
-    filterSAMbyIdentity(input_file, identity_cutoff, output_path)
-    # out = computeSAMstatistics(input_file, identity_cutoff)
-    end = time.time()
-    
-    print(f'Execution time: {end - start}')
+        parallelizeBAMoperation(input_path, filter_method, [cutoff],
+                                n_processes, output_path)
