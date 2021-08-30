@@ -7,10 +7,8 @@ Tools to filter SAM/BAM files by percent identity and percent of matched sequenc
 
 import pysam
 import os
-import sys
 import re
-import time
-import numpy as np
+from parallelbam.parallelbam import parallelizeBAMoperation
 from .utils import terminalExecute
 
 
@@ -98,7 +96,8 @@ def percent_identity(segment):
 def has_MD_tag(segment):
     return 'MD' in [tag for (tag, _) in segment.get_tags()]
 
-def filterSAMbyIdentity(input_path: str, output_path: str = None, identity_cutoff: int = 95) -> None:
+def filterSAMbyIdentity(input_path: str, output_path: str = None,
+                        identity_cutoff: float = 95.0) -> None:
     """
     Filter aligned segments in BAM or SAM file with percent identity
     equal or above identity_cutoff value.
@@ -117,7 +116,8 @@ def filterSAMbyIdentity(input_path: str, output_path: str = None, identity_cutof
     filtered_sam.close()
     samfile.close()
     
-def filterSAMbyPercentMatched(input_path: str, output_path: str = None, matched_cutoff: int = 50) -> None:
+def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
+                              matched_cutoff: float = 50.0) -> None:
     """
     Filter aligned segments in BAM or SAM file with percent of matched
     based equal or higher than matched_cutoff. 
@@ -139,29 +139,25 @@ def filterSAMbyPercentMatched(input_path: str, output_path: str = None, matched_
     filtered_sam.close()
     samfile.close()
     
-
-
-# Run script: python3 filter_by_identity.py input.bam identity_cutoff [output_path]
-if __name__ == "__main__":
+def filterSAM(input_path: str, output_path: str = None,
+              filter_by: str = 'identity', cutoff: float = 95.0,
+              n_processes: int = None) -> None:
     """
-    Filter records in SAM/BAM file by given percent identity.
-    Usage: 
-    python3 filter_by_identity.py input.{bam|sam} identity_cutoff [output_path]
+    Filter aligned segments in BAM or SAM file by percent identity or percent
+    of matched sequence.
     """
-    
-    input_file = sys.argv[1]
-    if (len(sys.argv) > 2):
-        identity_cutoff = int(sys.argv[2])
+    if filter_by == 'identity':
+        filter_method = filterSAMbyIdentity
+    elif filter_by == 'matched':
+        filter_method = filterSAMbyPercentMatched
     else:
-        identity_cutoff = 95
-    if (len(sys.argv) > 3):
-        output_path = int(sys.argv[3])
+        raise ValueError('Invalid filter, available filters are: "identity" and "matched"')
+
+    if not (cutoff >=0 and cutoff <= 100):
+        raise ValueError('Cutoff value must be between 0 and 100.')
+    
+    if n_processes is None:
+        filter_method(input_path, output_path, cutoff)
     else:
-        output_path = None
-    
-    start = time.time()
-    filterSAMbyIdentity(input_file, identity_cutoff, output_path)
-    # out = computeSAMstatistics(input_file, identity_cutoff)
-    end = time.time()
-    
-    print(f'Execution time: {end - start}')
+        parallelizeBAMoperation(input_path, filter_method, [cutoff],
+                                n_processes, output_path)

@@ -31,5 +31,10 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=['filtersam'],
-      install_requires=['numpy', 'pysam']
+      install_requires=['numpy', 'pysam'],
+      entry_points ={
+            'console_scripts': [
+                'filtersam = cli:main'
+            ]
+        }
       )
