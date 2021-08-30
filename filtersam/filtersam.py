@@ -5,7 +5,7 @@
 Tools to filter SAM/BAM files by percent identity and percent of matched sequence
 """
 
-# import pysam
+import pysam
 import os
 import re
 from parallelbam.parallelbam import parallelizeBAMoperation
