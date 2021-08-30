@@ -116,3 +116,17 @@ getNumberOfReads('ERS491274_PI95_parallel.bam')
 
 
 We see that both bam files contain the same number of (filtered) segments (fewer than in the original bam file).
+
+# Command-line usage
+
+Filtersam can also be called as a command line program in the following way:
+
+```filtersam [-h] [-i] [-m] [-p] [-o] bam```
+
+where _bam_ is the path to the bam/sam file.
+
+Call 
+
+```filtersam --help```
+
+to display help text about the arguments.

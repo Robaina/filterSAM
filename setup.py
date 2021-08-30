@@ -34,7 +34,7 @@ setup(name=NAME,
       install_requires=['numpy', 'pysam'],
       entry_points ={
             'console_scripts': [
-                'filtersam = cli:main'
+                'filtersam = filtersam.cli:main'
             ]
         }
       )

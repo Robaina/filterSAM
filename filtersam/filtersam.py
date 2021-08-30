@@ -9,7 +9,7 @@ import pysam
 import os
 import re
 from parallelbam.parallelbam import parallelizeBAMoperation
-from .utils import terminalExecute
+from filtersam.utils import terminalExecute
 
 
 def extractSegmentsWithMDtag(sam_dir: str, output_dir: str=None,
@@ -106,16 +106,17 @@ def filterSAMbyIdentity(input_path: str, output_path: str = None,
     if output_path is None:
         output_path = (f'{input_path.split(file_ext)[0]}'
                        f'.identity_filtered_at_{identity_cutoff}{file_ext}') 
-    
+    save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
     filtered_sam = pysam.AlignmentFile(output_path, 'w', template=samfile)
+    pysam.set_verbosity(save)                                      
     for segment in samfile:
         if (has_MD_tag(segment) and percent_identity(segment) >= identity_cutoff):
             filtered_sam.write(segment)
             
     filtered_sam.close()
     samfile.close()
-    
+
 def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
                               matched_cutoff: float = 50.0) -> None:
     """
@@ -129,9 +130,10 @@ def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
     if output_path is None:
         output_path = (f'{input_path.split(file_ext)[0]}'
                        f'_matched_filtered_at_{matched_cutoff}{file_ext}') 
-    
+    save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
     filtered_sam = pysam.AlignmentFile(output_path, 'w', template=samfile)
+    pysam.set_verbosity(save)
     for segment in samfile:
         if (has_MD_tag(segment) and percent_matched(segment) >= matched_cutoff):
             filtered_sam.write(segment)
@@ -159,5 +161,6 @@ def filterSAM(input_path: str, output_path: str = None,
     if n_processes is None:
         filter_method(input_path, output_path, cutoff)
     else:
-        parallelizeBAMoperation(input_path, filter_method, [cutoff],
-                                n_processes, output_path)
+        parallelizeBAMoperation(path_to_bam=input_path, callback=filter_method,
+                                callback_additional_args=[cutoff],
+                                n_processes=n_processes, output_path=output_path)
