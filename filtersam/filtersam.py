@@ -9,7 +9,7 @@ import pysam
 import os
 import re
 from parallelbam.parallelbam import parallelizeBAMoperation
-from filtersam.utils import terminalExecute
+from filtersam.utils import terminalExecute, sam2bam
 
 
 def extractSegmentsWithMDtag(sam_dir: str, output_dir: str=None,
@@ -161,6 +161,10 @@ def filterSAM(input_path: str, output_path: str = None,
     if n_processes is None:
         filter_method(input_path, output_path, cutoff)
     else:
+        if '.sam' in input_path:
+            print('Converting sam file to bam for processing')
+            input_path = input_path.replace('.sam', '.bam')
+            sam2bam(input_path)
         parallelizeBAMoperation(path_to_bam=input_path, callback=filter_method,
                                 callback_additional_args=[cutoff],
                                 n_processes=n_processes, output_path=output_path)
