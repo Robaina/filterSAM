@@ -27,6 +27,9 @@ BAM/SAM files must contain [MD tags](https://github.com/vsbuffalo/devnotes/wiki/
 
 ```pip3 install filtersam```
 
+Better to install within an environment, such as a conda environment, to avoid
+path conflicts with the included bash scripts.
+
 ## TODO
 
 1. Make it command line callable
