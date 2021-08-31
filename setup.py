@@ -6,7 +6,7 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
 
-DESCRIPTION = 'Tools to filter sam/bam files by percent identity or percent of matched sequence',
+DESCRIPTION = 'Tools to filter sam/bam files by percent identity',
 LONG_DESCRIPTION = long_description,
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'filtersam'
@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/filterSAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.6'
+VERSION = '0.0.7'
 
 setup(name=NAME,
       version=VERSION,
