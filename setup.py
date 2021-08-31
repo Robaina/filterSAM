@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from os import path
 
 
@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/filterSAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.3'
+VERSION = '0.0.5'
 
 setup(name=NAME,
       version=VERSION,
@@ -30,7 +30,7 @@ setup(name=NAME,
       url=DOWNLOAD_URL,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
-      packages=['filtersam'],
+      packages=find_packages(),
       install_requires=['numpy', 'pysam'],
       entry_points ={
             'console_scripts': [

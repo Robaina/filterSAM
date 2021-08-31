@@ -49,11 +49,7 @@ def main():
     if args.identity is None and args.matched is None:
         print(f'Defaulting to filtering by percent identity at 95%')
         filterSAM(input_path=bam, output_path=args.out, filter_by='identity',
-                  cutoff=95.0, n_processes=args.processes)
-        
-        
-        
-main()   
+                  cutoff=95.0, n_processes=args.processes)  
 
     
     
