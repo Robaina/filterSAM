@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/filterSAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 
 setup(name=NAME,
       version=VERSION,
@@ -31,7 +31,7 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=find_packages(),
-      install_requires=['numpy', 'pysam'],
+      install_requires=['numpy', 'pysam', 'parallelbam'],
       entry_points ={
             'console_scripts': [
                 'filtersam = filtersam.cli:main'
