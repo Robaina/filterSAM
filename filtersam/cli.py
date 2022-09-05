@@ -6,6 +6,8 @@ import os
 import sys
 import argparse
 import pyfiglet
+from pathlib import Path
+
 from filtersam.filtersam import filterSAM
 
 
@@ -20,23 +22,23 @@ def main():
         epilog='Developed by Semidán Robaina Estévez (srobaina@ull.edu.es)'
     )
 
-    parser.add_argument('bam', type = str,
+    parser.add_argument('bam', type=Path,
                         help = 'path to bam / sam file')
-    parser.add_argument('-i', '--identity', metavar = '', type = float,
-                        dest ='identity',
-                        help = 'filter by given percent identity')
-    parser.add_argument('-m', '--matched', metavar = '', type = float,
-                        dest ='matched',
-                        help = 'filter by given percent of matched sequence')
-    parser.add_argument('-p', '--processes', metavar = '', type = int,
-                        dest = 'processes',
-                        help = 'number of processes for parallelization')
-    parser.add_argument('-o', '--output', metavar = '', type = str,
-                        default = None, dest = 'out',
-                        help = 'path to output file')
+    parser.add_argument('-i', '--identity', metavar='', type=float,
+                        dest='identity',
+                        help='filter by given percent identity')
+    parser.add_argument('-m', '--matched', metavar='', type=float,
+                        dest='matched',
+                        help='filter by given percent of matched sequence')
+    parser.add_argument('-p', '--processes', metavar='', type=int,
+                        dest='processes',
+                        help='number of processes for parallelization')
+    parser.add_argument('-o', '--output', metavar='', type=Path,
+                        default=None, dest='out',
+                        help='path to output file')
 
     args = parser.parse_args()
-    bam = os.path.abspath(args.bam)
+    bam = Path(args.bam).absolute()
 
     if not os.path.isfile(bam):
         print('Specified bam file does not exist')

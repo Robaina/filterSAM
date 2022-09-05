@@ -5,21 +5,22 @@
 Tools to filter SAM/BAM files by percent identity and percent of matched sequence
 """
 
-import pysam
-import os
 import re
+from pathlib import Path
+
+import pysam
 from parallelbam.parallelbam import parallelizeBAMoperation
+
 from filtersam.utils import terminalExecute, sam2bam
 
 
-def extractSegmentsWithMDtag(sam_dir: str, output_dir: str=None,
+def extractSegmentsWithMDtag(sam_dir: Path, output_dir: Path=None,
                              suppress_output: bool = False) -> None:
     """
     Use samtools to filter out segments that do not have an MD tag
     """
     if output_dir is None:
-        basename, ext = os.path.basename(sam_dir).split('.')
-        output_dir = os.path.join(os.path.dirname(sam_dir), f'{basename}_only_md.{ext}')
+        output_dir = Path(sam_dir.parent) / f"{sam_dir.stem}_only_md.{sam_dir.suffix}"
     samtools_command = f'samtools view -h -d MD {sam_dir} > {output_dir}'
     terminalExecute(samtools_command, suppress_output=suppress_output)
     
@@ -96,28 +97,29 @@ def percent_identity(segment):
 def has_MD_tag(segment):
     return 'MD' in [tag for (tag, _) in segment.get_tags()]
 
-def filterSAMbyIdentity(input_path: str, output_path: str = None,
+def filterSAMbyIdentity(input_path: Path, output_path: Path = None,
                         identity_cutoff: float = 95.0) -> None:
     """
     Filter aligned segments in BAM or SAM file with percent identity
     equal or above identity_cutoff value.
     """
-    file_ext = re.search('.(s|b)am', input_path).group()
+    input_path = Path(input_path)
+    file_ext = re.search('.(s|b)am', input_path.as_posix()).group()
     if output_path is None:
-        output_path = (f'{input_path.split(file_ext)[0]}'
-                       f'.identity_filtered_at_{identity_cutoff}{file_ext}') 
+        output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
+                       f'.identity_filtered_at_{identity_cutoff}{file_ext}')
+    output_path = Path(output_path)
     save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
     filtered_sam = pysam.AlignmentFile(output_path, 'w', template=samfile)
     pysam.set_verbosity(save)                                      
     for segment in samfile:
         if (has_MD_tag(segment) and percent_identity(segment) >= identity_cutoff):
-            filtered_sam.write(segment)
-            
+            filtered_sam.write(segment)           
     filtered_sam.close()
     samfile.close()
 
-def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
+def filterSAMbyPercentMatched(input_path: Path, output_path: Path = None,
                               matched_cutoff: float = 50.0) -> None:
     """
     Filter aligned segments in BAM or SAM file with percent of matched
@@ -126,10 +128,11 @@ def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
     Percent of matched bases is computed as the fraction of matches in
     the total query length.
     """
-    file_ext = re.search('.(s|b)am', input_path).group()
+    file_ext = re.search('.(s|b)am', input_path.as_posix()).group()
     if output_path is None:
-        output_path = (f'{input_path.split(file_ext)[0]}'
+        output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
                        f'_matched_filtered_at_{matched_cutoff}{file_ext}') 
+    output_path = Path(output_path)
     save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
     filtered_sam = pysam.AlignmentFile(output_path, 'w', template=samfile)
@@ -141,7 +144,7 @@ def filterSAMbyPercentMatched(input_path: str, output_path: str = None,
     filtered_sam.close()
     samfile.close()
     
-def filterSAM(input_path: str, output_path: str = None,
+def filterSAM(input_path: Path, output_path: Path = None,
               filter_by: str = 'identity', cutoff: float = 95.0,
               n_processes: int = None) -> None:
     """
@@ -161,10 +164,10 @@ def filterSAM(input_path: str, output_path: str = None,
     if n_processes is None:
         filter_method(input_path, output_path, cutoff)
     else:
-        if '.sam' in input_path:
+        if '.sam' in input_path.name:
             print('Converting sam file to bam for processing')
-            input_path = input_path.replace('.sam', '.bam')
+            input_path = Path(input_path.as_posix().replace('.sam', '.bam'))
             sam2bam(input_path)
-        parallelizeBAMoperation(path_to_bam=input_path, callback=filter_method,
+        parallelizeBAMoperation(path_to_bam=input_path.as_posix(), callback=filter_method,
                                 callback_additional_args=[cutoff],
-                                n_processes=n_processes, output_path=output_path)
+                                n_processes=n_processes, output_path=output_path.as_posix())
