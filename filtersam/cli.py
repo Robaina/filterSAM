@@ -5,15 +5,19 @@ Command line interface to filtersam
 import os
 import sys
 import argparse
+import pyfiglet
 from filtersam.filtersam import filterSAM
 
 
 def main():
+
+    title = pyfiglet.figlet_format("filterSAM", font="slant" )
+    title.renderText('FilterSAM')
   
     parser = argparse.ArgumentParser(
-        prog ='filtersam',
-        description ='Tools to filter SAM/BAM files by percent identity or percent of matched sequence',
-        epilog = 'Developed by Semidán Robaina Estévez (srobaina@ull.edu.es)'
+        prog='filtersam',
+        description='Tools to filter SAM/BAM files by percent identity or percent of matched sequence',
+        epilog='Developed by Semidán Robaina Estévez (srobaina@ull.edu.es)'
     )
 
     parser.add_argument('bam', type = str,
