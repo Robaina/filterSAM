@@ -1,7 +1,8 @@
 ![logo](assets/logo.png)
-
 ## Tools to filter sam/bam files by percent identity or percent of matched sequence
 <br>
+
+[![DOI](https://zenodo.org/badge/400865776.svg)](https://zenodo.org/badge/latestdoi/400865776)
 
 Percent identity is computed as:
 
