@@ -128,6 +128,7 @@ def filterSAMbyPercentMatched(input_path: Path, output_path: Path = None,
     Percent of matched bases is computed as the fraction of matches in
     the total query length.
     """
+    input_path = Path(input_path)
     file_ext = re.search('.(s|b)am', input_path.as_posix()).group()
     if output_path is None:
         output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
