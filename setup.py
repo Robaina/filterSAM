@@ -10,13 +10,13 @@ DESCRIPTION = 'Tools to filter sam o bam files by percent identity or percent of
 LONG_DESCRIPTION = long_description,
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'filtersam'
-AUTHOR = "Semidán Robaina Estévez"
+AUTHOR = "Semidán Robaina Estévez, 2021-2022"
 AUTHOR_EMAIL = "srobaina@ull.edu.es"
 MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/filterSAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.8'
+VERSION = '0.0.9'
 
 setup(name=NAME,
       version=VERSION,

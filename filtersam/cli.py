@@ -2,10 +2,8 @@
 Command line interface to filtersam
 """
 
-import os
 import sys
 import argparse
-import pyfiglet
 from pathlib import Path
 
 from filtersam.filtersam import filterSAM
@@ -13,13 +11,32 @@ from filtersam.filtersam import filterSAM
 
 def main():
 
-    title = pyfiglet.figlet_format("filterSAM", font="slant" )
-    title.renderText('FilterSAM')
+    def printLogo():
+        print(
+            (
+            """
+   __ _ _ _                                
+  / _(_) | |                               
+ | |_ _| | |_ ___ _ __ ___  __ _ _ __ ___  
+ |  _| | | __/ _ \ '__/ __|/ _` | '_ ` _ \ 
+ | | | | | ||  __/ |  \__ \ (_| | | | | | |
+ |_| |_|_|\__\___|_|  |___/\__,_|_| |_| |_|
+                                           
+                                           
+"""
+            "Tools to filter SAM or BAM files\n"
+            "Semidán Robaina Estévez (srobaina@ull.edu.es), 2022\n"
+            " \n"
+            )
+            )
+            
+    printLogo()
   
     parser = argparse.ArgumentParser(
         prog='filtersam',
         description='Tools to filter SAM/BAM files by percent identity or percent of matched sequence',
-        epilog='Developed by Semidán Robaina Estévez (srobaina@ull.edu.es)'
+        epilog="  \n",
+        formatter_class=argparse.RawTextHelpFormatter
     )
 
     parser.add_argument('bam', type=Path,
@@ -36,11 +53,14 @@ def main():
     parser.add_argument('-o', '--output', metavar='', type=Path,
                         default=None, dest='out',
                         help='path to output file')
-
+    
+    if len(sys.argv) < 2:
+        parser.print_help()
+        sys.exit(1)
     args = parser.parse_args()
     bam = Path(args.bam).absolute()
 
-    if not os.path.isfile(bam):
+    if not bam.is_file():
         print('Specified bam file does not exist')
         sys.exit()
 
