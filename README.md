@@ -25,12 +25,6 @@ BAM/SAM files must contain [MD tags](https://github.com/vsbuffalo/devnotes/wiki/
 
 ```pip install filtersam```
 
-## TODO
-
-1. Make it command line callable
-2. Perhaps good idea (if possible) to add a specific tag to BAM/SAM containing computed percent identity
-3. Include several definitions of percent identity and/or let the user define one
-
 # Usage
 
 This package contains two main functions: ```filterSAMbyIdentity``` and ```filterSAMbyPercentMatched```, to filter BAM files by percent identity or percent of matched sequence, respectively. 
