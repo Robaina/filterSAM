@@ -16,7 +16,7 @@ MAINTAINER = "Semidán Robaina Estévez"
 MAINTAINER_EMAIL = "srobaina@gmail.com"
 DOWNLOAD_URL = 'http://github.com/robaina/filterSAM'
 LICENSE = 'Creative Commons Attribution 4.0 International'
-VERSION = '0.0.10'
+VERSION = '0.0.11'
 
 setup(name=NAME,
       version=VERSION,
