@@ -1,6 +1,10 @@
 ![logo](assets/logo.png)
 ## A Python tool to filter sam/bam files by percent identity or percent of matched sequence
 
+![PyPI](https://img.shields.io/pypi/v/filtersam)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Robaina/filterSAM)
+[![GitHub license](https://img.shields.io/github/license/Robaina/filterSAM)](https://github.com/Robaina/filterSAM/blob/master/LICENSE)
+![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4)
 [![DOI](https://zenodo.org/badge/400865776.svg)](https://zenodo.org/badge/latestdoi/400865776)
 
 <br>
