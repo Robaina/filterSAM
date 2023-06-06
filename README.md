@@ -21,9 +21,11 @@ $$PM = 100 \frac{N_m}{L}$$
 
 where $L$ corresponds to query sequence length.
 
-## NOTE
+## NOTES
 
-BAM/SAM files must contain [MD tags](https://github.com/vsbuffalo/devnotes/wiki/The-MD-Tag-in-BAM-Files) to be able to filter by percent identity. Aligners such as [BWA](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2705234/) add MD tags to each queried sequence in a BAM file. MD tags can also be generated with [samtools](http://www.htslib.org/doc/samtools-calmd.html).
+1. Percent of matched sequence is also an alternative definition of percent identity used in some cases, for intance, in [BLAST](https://lh3.github.io/2018/11/25/on-the-definition-of-sequence-identity).
+
+2. BAM/SAM files must contain [MD tags](https://github.com/vsbuffalo/devnotes/wiki/The-MD-Tag-in-BAM-Files) to be able to filter by percent identity. Aligners such as [BWA](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2705234/) add MD tags to each queried sequence in a BAM file. MD tags can also be generated with [samtools](http://www.htslib.org/doc/samtools-calmd.html).
 
 ## Installation
 
