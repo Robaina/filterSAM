@@ -1,13 +1,14 @@
-from setuptools import setup, find_packages
 from os import path
 
+from setuptools import find_packages
+from setuptools import setup
 
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), 'r', encoding='utf-8') as f:
     long_description = f.read()
 
-DESCRIPTION = 'Tools to filter sam o bam files by percent identity or percent of matched sequence',
-LONG_DESCRIPTION = long_description,
+DESCRIPTION = 'Tools to filter sam o bam files by percent identity or percent of matched sequence'
+LONG_DESCRIPTION = long_description
 LONG_DESCRIPTION_CONTENT_TYPE = 'text/markdown'
 NAME = 'filtersam'
 AUTHOR = "Semidán Robaina Estévez, 2021-2022"
