@@ -109,9 +109,10 @@ def filterSAMbyIdentity(input_path: Path, output_path: Path = None,
         output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
                        f'.identity_filtered_at_{identity_cutoff}{file_ext}')
     output_path = Path(output_path)
+    mode = 'w' if file_ext == '.sam' else 'wb'
     save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
-    filtered_sam = pysam.AlignmentFile(output_path, 'w', template=samfile)
+    filtered_sam = pysam.AlignmentFile(output_path, mode, template=samfile)
     pysam.set_verbosity(save)                                      
     for segment in samfile:
         if (has_MD_tag(segment) and percent_identity(segment) >= identity_cutoff):
@@ -134,9 +135,10 @@ def filterSAMbyPercentMatched(input_path: Path, output_path: Path = None,
         output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
                        f'_matched_filtered_at_{matched_cutoff}{file_ext}') 
     output_path = Path(output_path)
+    mode = 'w' if file_ext == '.sam' else 'wb'
     save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
-    filtered_sam = pysam.AlignmentFile(output_path, 'w', template=samfile)
+    filtered_sam = pysam.AlignmentFile(output_path, mode, template=samfile)
     pysam.set_verbosity(save)
     for segment in samfile:
         if (has_MD_tag(segment) and percent_matched(segment) >= matched_cutoff):
