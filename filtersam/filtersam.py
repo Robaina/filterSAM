@@ -104,12 +104,13 @@ def filterSAMbyIdentity(input_path: Path, output_path: Path = None,
     equal or above identity_cutoff value.
     """
     input_path = Path(input_path)
-    file_ext = re.search('.(s|b)am', input_path.as_posix()).group()
+    file_ext = input_path.suffix
     if output_path is None:
         output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
                        f'.identity_filtered_at_{identity_cutoff}{file_ext}')
     output_path = Path(output_path)
-    mode = 'w' if file_ext == '.sam' else 'wb'
+    output_ext = output_path.suffix
+    mode = 'w' if output_ext == '.sam' else 'wb'
     save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
     filtered_sam = pysam.AlignmentFile(output_path, mode, template=samfile)
@@ -130,12 +131,13 @@ def filterSAMbyPercentMatched(input_path: Path, output_path: Path = None,
     the total query length.
     """
     input_path = Path(input_path)
-    file_ext = re.search('.(s|b)am', input_path.as_posix()).group()
+    file_ext = input_path.suffix
     if output_path is None:
         output_path = (f'{input_path.as_posix().split(file_ext)[0]}'
                        f'_matched_filtered_at_{matched_cutoff}{file_ext}') 
     output_path = Path(output_path)
-    mode = 'w' if file_ext == '.sam' else 'wb'
+    output_ext = output_path.suffix
+    mode = 'w' if output_ext == '.sam' else 'wb'
     save = pysam.set_verbosity(0)
     samfile = pysam.AlignmentFile(input_path, 'r')
     filtered_sam = pysam.AlignmentFile(output_path, mode, template=samfile)
