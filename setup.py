@@ -32,7 +32,7 @@ setup(name=NAME,
       download_url=DOWNLOAD_URL,
       license=LICENSE,
       packages=find_packages(),
-      install_requires=['numpy', 'pysam', 'parallelbam'],
+      install_requires=['numpy', 'pysam', 'parallelbam>=0.0.20'],
       entry_points ={
             'console_scripts': [
                 'filtersam = filtersam.cli:main'

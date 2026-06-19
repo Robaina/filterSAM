@@ -173,6 +173,10 @@ def filterSAM(input_path: Path, output_path: Path = None,
             print('Converting sam file to bam for processing')
             input_path = Path(input_path.as_posix().replace('.sam', '.bam'))
             sam2bam(input_path)
+        # Both filters evaluate each segment independently, so the chunks do
+        # not need reads grouped by query name. Skipping parallelbam's
+        # name-sort avoids a full serial pass over the file (see #3).
         parallelizeBAMoperation(path_to_bam=input_path.as_posix(), callback=filter_method,
                                 callback_additional_args=[cutoff],
-                                n_processes=n_processes, output_path=output_path.as_posix())
+                                n_processes=n_processes, output_path=output_path.as_posix(),
+                                sort_by_name=False)
