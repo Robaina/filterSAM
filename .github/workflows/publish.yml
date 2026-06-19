@@ -2,7 +2,7 @@ name: publish
 
 # Publishes the package to PyPI when a GitHub Release is published.
 # Uses PyPI Trusted Publishing (OIDC) — no API token is stored in the repo.
-# The matching publisher must be configured on PyPI for project "filter-sam"
+# The matching publisher must be configured on PyPI for project "filtersam-tools"
 # with this workflow filename (publish.yml) and environment name (pypi).
 
 on:
