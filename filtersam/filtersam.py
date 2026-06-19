@@ -166,7 +166,7 @@ def filterSAM(input_path: Path, output_path: Path = None,
     if not (cutoff >=0 and cutoff <= 100):
         raise ValueError('Cutoff value must be between 0 and 100.')
     
-    if n_processes is None:
+    if n_processes is None or n_processes <= 1:
         filter_method(input_path, output_path, cutoff)
     else:
         if '.sam' in input_path.name:
