@@ -24,9 +24,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install pysam numpy pytest
-          # parallelbam>=0.0.20 (sort_by_name support) is not on PyPI yet;
-          # install from the repo until it is released, then switch back to PyPI.
-          python -m pip install "parallelbam @ git+https://github.com/Robaina/parallelBAM.git@main"
+          # parallel-bam>=0.0.20 (sort_by_name support) is not on PyPI yet;
+          # install from the repo until it is released, then switch to:
+          #   python -m pip install "parallel-bam>=0.0.20"
+          python -m pip install "git+https://github.com/Robaina/parallelBAM.git@main"
           python -m pip install -e . --no-deps
 
       - name: Run tests
